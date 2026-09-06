@@ -1,6 +1,6 @@
 # 🧵 Red Social Artesanos
 
-> Red social pensada para que artesanos publiquen su trabajo, se sigan entre sí y construyan comunidad alrededor de su oficio — a la manera de Instagram, pero hecha desde cero en PHP puro.
+> Red social pensada para que artesanos publiquen su trabajo, se sigan entre sí y construyan comunidad alrededor de su oficio.
 
 ![PHP](https://img.shields.io/badge/PHP-8-777BB4?logo=php&logoColor=white)
 ![MySQL](https://img.shields.io/badge/MySQL-database-4479A1?logo=mysql&logoColor=white)
@@ -10,24 +10,39 @@
 
 ---
 
+## 📸 Capturas
+
+<table>
+<tr>
+<td width="50%"><img src="docs/screenshots/registro.png" alt="Registro"/><p align="center"><em>Registro / login</em></p></td>
+<td width="50%"><img src="docs/screenshots/feed.png" alt="Feed"/><p align="center"><em>Feed — Top 8 más likeados</em></p></td>
+</tr>
+<tr>
+<td width="50%"><img src="docs/screenshots/explorar.png" alt="Explorar"/><p align="center"><em>Explorar</em></p></td>
+<td width="50%"><img src="docs/screenshots/perfil.png" alt="Perfil de usuario"/><p align="center"><em>Perfil de usuario</em></p></td>
+</tr>
+<tr>
+<td width="50%"><img src="docs/screenshots/solicitudes.png" alt="Solicitudes de seguimiento"/><p align="center"><em>Solicitudes de seguimiento</em></p></td>
+<td width="50%"><img src="docs/screenshots/crear-album.png" alt="Crear álbum"/><p align="center"><em>Crear álbum</em></p></td>
+</tr>
+</table>
+
 ## 📖 Sobre el proyecto
 
-**Red Social Artesanos** es un proyecto personal full-stack en PHP orientado a explorar cómo se construye, desde los cimientos y sin frameworks, una red social con las piezas que la hacen "social": cuentas de usuario, seguimiento entre perfiles con aprobación manual, publicación de álbumes de fotos con control de privacidad, likes, comentarios y un feed ordenado por popularidad.
+**Red Social Artesanos** es un proyecto personal full-stack en PHP (sin frameworks) que le da a artesanos un espacio propio para publicar álbumes de fotos de su trabajo, seguir a otros perfiles mediante un sistema de solicitudes con aprobación manual, dar like y comentar publicaciones, y descubrir contenido en un feed ordenado por popularidad; se mantiene como pieza de portfolio para demostrar manejo de PHP orientado a objetos, SQL, sesiones, subida de archivos, envío de emails y JavaScript vanilla para interacciones AJAX.
 
-La idea de negocio es simple: darle a artesanos un espacio propio para mostrar y compartir su trabajo, similar en espíritu a Instagram pero con un modelo de seguimiento tipo "cuenta privada" (toda solicitud de seguimiento debe ser aceptada por el usuario seguido).
-
-Este repositorio se mantiene como pieza de portfolio: el objetivo no es la perfección productiva sino demostrar manejo de PHP orientado a objetos, SQL, sesiones, subida de archivos, envío de emails y JavaScript vanilla para interacciones AJAX, todo sin frameworks de por medio.
+Nació en el contexto de un proyecto universitario para aprender y practicar estas tecnologías, por lo que prioriza el aprendizaje por sobre las prácticas de un entorno productivo real.
 
 ## ✨ Funcionalidades
 
-- **Registro e inicio de sesión** con validación en cliente y servidor (regex de nombre/email/contraseña), contraseñas hasheadas con `password_hash` y protección básica contra inyección SQL mediante `mysqli_real_escape_string`.
-- **Recuperación de contraseña por email**: flujo de 3 pasos (solicitar → verificar código de 6 dígitos con expiración de 15 minutos → definir nueva contraseña), usando PHPMailer sobre SMTP de Gmail.
-- **Perfil de usuario**: nombre, apellido, intereses, antecedentes y foto de perfil, con historial de fotos de perfil subidas.
-- **Álbumes y galería**: creación de álbumes con múltiples imágenes por subida, título por álbum/numerado/individual, y **privacidad por imagen** (pública o solo para seguidores aceptados).
-- **Sistema de seguimiento con aprobación**: enviar solicitud de seguimiento, aceptarla o rechazarla desde una bandeja de solicitudes — el contenido privado solo se desbloquea cuando la solicitud fue aceptada.
-- **Feed / Explorar**: galería tipo masonry con las publicaciones visibles para el usuario, ordenadas por cantidad de likes (top 8 en el inicio, feed completo en "Explorar").
-- **Likes y comentarios en tiempo real** vía AJAX (sin recargar la página), con modal de imagen ampliada.
-- **Notificaciones de solicitudes** de seguimiento pendientes.
+- **Registro / login** con validación y contraseñas hasheadas (`password_hash`).
+- **Recuperación de contraseña por email** con código de verificación (PHPMailer).
+- **Perfil de usuario** con foto e historial de fotos de perfil.
+- **Álbumes y galería** con privacidad por imagen (pública o solo seguidores).
+- **Seguimiento con aprobación**: solicitar, aceptar o rechazar, tipo cuenta privada.
+- **Feed / Explorar** en formato masonry, ordenado por likes.
+- **Likes y comentarios en tiempo real** vía AJAX.
+- **Notificaciones** de solicitudes de seguimiento pendientes.
 
 ## 🏗️ Arquitectura
 
@@ -117,8 +132,6 @@ erDiagram
         int id_imagen FK
     }
 ```
-
-> ⚠️ El proyecto no incluye un archivo `.sql` de instalación: el esquema fue reconstruido a partir de las consultas presentes en el código (`logica/*.php`). Si vas a levantar el proyecto, deberás crear estas tablas manualmente en una base llamada `redsocialartesanos`.
 
 ## 🛠️ Stack técnico
 
