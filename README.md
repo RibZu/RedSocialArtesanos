@@ -56,11 +56,11 @@ assets/      → CSS y JavaScript (validación de formularios, navegación, like
 libs/        → Dependencias de Composer (PHPMailer)
 ```
 
-**Diagram:** [architecture.html](docs/diagrams/architecture.html)
+![Architecture diagram](docs/diagrams/architecture.png)
 
 ### Modelo de datos
 
-**Diagram:** [entity-relationship.html](docs/diagrams/entity-relationship.html)
+![Entity-relationship diagram](docs/diagrams/entity-relationship.png)
 
 ## 🛠️ Stack técnico
 
