@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Red Social Artesanos · Arquitectura</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:   #f5f5f5;
+      --color-ink:     #2d3142;
+      --color-muted:   #4f5d75;
+      --color-accent:  #eb6c36;
+      --font-sans:     'Geist', system-ui, sans-serif;
+      --font-serif:    'Instrument Serif', serif;
+      --font-mono:     'Geist Mono', ui-monospace, monospace;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-paper);
+      color: var(--color-ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+    }
+
+    .frame { max-width: 1100px; width: 100%; }
+
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--color-ink);
+      margin-bottom: 1.5rem;
+    }
+
+    svg { width: 100%; min-width: 900px; display: block; }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Arquitectura · Diagram Design</p>
+    <h1>Red Social Artesanos — capas de la aplicación</h1>
+
+    <svg viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="architecture-title architecture-desc">
+      <title id="architecture-title">Arquitectura de Red Social Artesanos</title>
+      <desc id="architecture-desc">Diagrama de arquitectura que muestra al navegador llegando por HTTP y AJAX a las vistas y a la capa de dominio, que orquesta el acceso a MySQL y el envío de correo de recuperación por Gmail SMTP.</desc>
+      <defs>
+        <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/></marker>
+        <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/></marker>
+        <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" fill="#2e5aa8"/></marker>
+      </defs>
+
+      <rect width="100%" height="100%" fill="#f5f5f5"/>
+
+      <!-- ===== Arrows (drawn before boxes) ===== -->
+
+      <!-- Browser -> Public (HTTP) -->
+      <line x1="180" y1="132" x2="212" y2="132" stroke="#2e5aa8" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+
+      <!-- Public -> Controller -->
+      <line x1="352" y1="132" x2="384" y2="132" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+      <!-- Controller -> Logica -->
+      <line x1="524" y1="132" x2="556" y2="132" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+      <!-- Public -> Logica (routes through the open gap between row 1 and row 2, entering Logica's bottom edge) -->
+      <path d="M 282,164 V 212 Q 282,220 290,220 H 602 Q 610,220 610,212 V 164"
+            fill="none" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+      <!-- Browser -> Logica (AJAX) — top corridor above row 1, dashed link -->
+      <path d="M 110,100 V 80 Q 110,72 118,72 H 628 Q 636,72 636,80 V 100"
+            fill="none" stroke="#2e5aa8" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arrow-link)"/>
+
+      <!-- Logica -> Conexion (straight, shared x) -->
+      <line x1="662" y1="164" x2="662" y2="280" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+      <!-- Conexion -> DB -->
+      <line x1="716" y1="312" x2="756" y2="312" stroke="#4f5d75" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+      <!-- Controller -> Mailer (dashed optional path; hops over the Public->Logica corridor at y=220) -->
+      <path d="M 454,164 V 212 a 8,8 0 0,0 0,16 V 280"
+            fill="none" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+
+      <!-- Mailer -> SMTP (dashed optional path, straight, shared x) -->
+      <line x1="454" y1="344" x2="454" y2="420" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+
+      <!-- ===== Arrow labels (masked, 6-10px above the stroke) ===== -->
+
+      <rect x="182" y="106" width="40" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="202" y="115" fill="#2e5aa8" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">HTTP</text>
+
+      <rect x="352" y="54" width="40" height="12" rx="2" fill="#f5f5f5"/>
+      <text x="372" y="63" fill="#2e5aa8" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">AJAX</text>
+
+      <!-- ===== Nodes ===== -->
+
+      <!-- Browser (Input/User) -->
+      <rect x="40" y="100" width="140" height="64" rx="6" fill="#f5f5f5"/>
+      <rect x="40" y="100" width="140" height="64" rx="6" fill="rgba(79,93,117,0.10)" stroke="#7a8399" stroke-width="1"/>
+      <rect x="48" y="108" width="34" height="12" rx="2" fill="transparent" stroke="rgba(122,131,153,0.40)" stroke-width="0.8"/>
+      <text x="65" y="117" fill="#7a8399" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">USER</text>
+      <text x="110" y="140" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Navegador</text>
+      <text x="110" y="156" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">cliente web</text>
+
+      <!-- Public (Backend/Step) -->
+      <rect x="212" y="100" width="140" height="64" rx="6" fill="#f5f5f5"/>
+      <rect x="212" y="100" width="140" height="64" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <rect x="220" y="108" width="34" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+      <text x="237" y="117" fill="#2d3142" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">VIEW</text>
+      <text x="282" y="140" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Vistas</text>
+      <text x="282" y="156" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">public/*.php</text>
+
+      <!-- Controller (Backend/Step) -->
+      <rect x="384" y="100" width="140" height="64" rx="6" fill="#f5f5f5"/>
+      <rect x="384" y="100" width="140" height="64" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <rect x="392" y="108" width="32" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+      <text x="408" y="117" fill="#2d3142" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">CTRL</text>
+      <text x="454" y="140" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Controladores</text>
+      <text x="454" y="156" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">controller/*.php</text>
+
+      <!-- Logica (focal — dominio) -->
+      <rect x="556" y="100" width="160" height="64" rx="6" fill="#f5f5f5"/>
+      <rect x="556" y="100" width="160" height="64" rx="6" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
+      <rect x="564" y="108" width="32" height="12" rx="2" fill="transparent" stroke="rgba(235,108,54,0.50)" stroke-width="0.8"/>
+      <text x="580" y="117" fill="#eb6c36" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">CORE</text>
+      <text x="636" y="140" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Lógica de dominio</text>
+      <text x="636" y="156" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">logica/*.php</text>
+
+      <!-- Conexion (Backend/Step) -->
+      <rect x="556" y="280" width="160" height="64" rx="6" fill="#f5f5f5"/>
+      <rect x="556" y="280" width="160" height="64" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <rect x="564" y="288" width="32" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.40)" stroke-width="0.8"/>
+      <text x="580" y="297" fill="#2d3142" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">CONN</text>
+      <text x="636" y="320" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Conexión</text>
+      <text x="636" y="336" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">mysqli</text>
+
+      <!-- DB (Store/State) -->
+      <rect x="756" y="280" width="140" height="64" rx="6" fill="#f5f5f5"/>
+      <rect x="756" y="280" width="140" height="64" rx="6" fill="rgba(45,49,66,0.05)" stroke="#4f5d75" stroke-width="1"/>
+      <rect x="764" y="288" width="24" height="12" rx="2" fill="transparent" stroke="rgba(79,93,117,0.50)" stroke-width="0.8"/>
+      <text x="776" y="297" fill="#4f5d75" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">DB</text>
+      <text x="826" y="320" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">MySQL</text>
+      <text x="826" y="336" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">redsocialartesanos</text>
+
+      <!-- Mailer (Optional/Async) -->
+      <rect x="384" y="280" width="140" height="64" rx="6" fill="#f5f5f5"/>
+      <rect x="384" y="280" width="140" height="64" rx="6" fill="rgba(45,49,66,0.02)" stroke="rgba(45,49,66,0.20)" stroke-width="1" stroke-dasharray="4,3"/>
+      <rect x="392" y="288" width="28" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.30)" stroke-width="0.8"/>
+      <text x="406" y="297" fill="#4f5d75" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">LIB</text>
+      <text x="454" y="320" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">PHPMailer</text>
+      <text x="454" y="336" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">reset de contraseña</text>
+
+      <!-- SMTP (External/Cloud) -->
+      <rect x="384" y="420" width="140" height="64" rx="6" fill="#f5f5f5"/>
+      <rect x="384" y="420" width="140" height="64" rx="6" fill="rgba(45,49,66,0.03)" stroke="rgba(45,49,66,0.30)" stroke-width="1"/>
+      <rect x="392" y="428" width="34" height="12" rx="2" fill="transparent" stroke="rgba(45,49,66,0.22)" stroke-width="0.8"/>
+      <text x="409" y="437" fill="#7a8399" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">CLOUD</text>
+      <text x="454" y="460" fill="#2d3142" font-size="12" font-weight="600" font-family="'Geist', sans-serif" text-anchor="middle">Gmail SMTP</text>
+      <text x="454" y="476" fill="#4f5d75" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">envío de correo</text>
+
+      <!-- ===== Legend ===== -->
+      <line x1="40" y1="504" x2="920" y2="504" stroke="rgba(45,49,66,0.10)" stroke-width="0.8"/>
+      <text x="40" y="520" fill="#4f5d75" font-size="8" font-family="'Geist Mono', monospace" letter-spacing="0.18em">LEGEND</text>
+
+      <rect x="40" y="536" width="14" height="10" rx="2" fill="rgba(235,108,54,0.08)" stroke="#eb6c36" stroke-width="1"/>
+      <text x="60" y="544" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Capa de dominio</text>
+
+      <rect x="190" y="536" width="14" height="10" rx="2" fill="#ffffff" stroke="#2d3142" stroke-width="1"/>
+      <text x="210" y="544" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Vista / controlador</text>
+
+      <rect x="360" y="536" width="14" height="10" rx="2" fill="rgba(45,49,66,0.05)" stroke="#4f5d75" stroke-width="1"/>
+      <text x="380" y="544" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Base de datos</text>
+
+      <rect x="500" y="536" width="14" height="10" rx="2" fill="rgba(45,49,66,0.03)" stroke="rgba(45,49,66,0.30)" stroke-width="1"/>
+      <text x="520" y="544" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Servicio externo</text>
+
+      <line x1="650" y1="541" x2="678" y2="541" stroke="#4f5d75" stroke-width="1" stroke-dasharray="4,3"/>
+      <text x="686" y="544" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">Flujo opcional</text>
+
+      <line x1="810" y1="541" x2="838" y2="541" stroke="#2e5aa8" stroke-width="1.2"/>
+      <text x="846" y="544" fill="#4f5d75" font-size="8.5" font-family="'Geist', sans-serif">HTTP</text>
+    </svg>
+  </div>
+</body>
+</html>

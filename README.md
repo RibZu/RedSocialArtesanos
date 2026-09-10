@@ -56,82 +56,11 @@ assets/      → CSS y JavaScript (validación de formularios, navegación, like
 libs/        → Dependencias de Composer (PHPMailer)
 ```
 
-```mermaid
-flowchart LR
-    Browser["Navegador"] -->|HTTP| Public["public/*.php<br/>(vistas)"]
-    Public --> Controller["controller/*.php<br/>(validación y orquestación)"]
-    Public --> Logica["logica/*.php<br/>(clases de dominio)"]
-    Controller --> Logica
-    Logica --> Conexion["Conexion (mysqli)"]
-    Conexion --> DB[("MySQL<br/>redsocialartesanos")]
-    Controller --> Mailer["PHPMailer<br/>(recuperación de contraseña)"]
-    Mailer --> SMTP["Gmail SMTP"]
-    Browser -->|AJAX| Logica
-```
+**Diagram:** [architecture.html](docs/diagrams/architecture.html)
 
 ### Modelo de datos
 
-```mermaid
-erDiagram
-    usuario ||--o{ album : "crea"
-    usuario ||--o{ imagen : "sube"
-    usuario ||--o{ likes : "da"
-    usuario ||--o{ comentario : "escribe"
-    usuario ||--o{ img_perfil : "tiene historial"
-    usuario ||--o{ seguimiento : "sigue / es seguido"
-    album ||--o{ imagen : "contiene"
-    imagen ||--o{ likes : "recibe"
-    imagen ||--o{ comentario : "recibe"
-
-    usuario {
-        int id_usuario PK
-        string nombre
-        string apellido
-        string email
-        string contraseña
-        string interes
-        string antecedentes
-        int img_perfil_actual FK
-    }
-    img_perfil {
-        int id_imagen_perfil PK
-        string url_img
-        datetime fecha
-        int id_usuario FK
-    }
-    album {
-        int id_album PK
-        string titulo
-        int id_usuario FK
-    }
-    imagen {
-        int id_imagen PK
-        int id_album FK
-        string url_imagen
-        string titulo
-        tinyint privacidad "1=pública, 2=seguidores"
-        int id_usuario FK
-    }
-    seguimiento {
-        int id_seguimiento PK
-        int id_usuario_seguidor FK
-        int id_usuario_seguido FK
-        tinyint estado "1=pendiente,2=aceptado,3=rechazado"
-    }
-    likes {
-        int id_like PK
-        datetime fecha
-        int id_usuario FK
-        int id_imagen FK
-    }
-    comentario {
-        int id_comentario PK
-        string texto
-        datetime fecha
-        int id_usuario FK
-        int id_imagen FK
-    }
-```
+**Diagram:** [entity-relationship.html](docs/diagrams/entity-relationship.html)
 
 ## 🛠️ Stack técnico
 
